@@ -16,13 +16,14 @@ public final class SpringBeanConfigurationGenerator extends AbstractProcessor im
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (final var element : roundEnv.getElementsAnnotatedWith(GenerateSpringBeanConfiguration.class)) {
             final var generateSpringBeanConfiguration = element.getAnnotation(GenerateSpringBeanConfiguration.class);
-            final var configs = generateSpringBeanConfiguration.configurations();
-            for (final var config : configs) {
-
-            }
             try {
+                final var configs = generateSpringBeanConfiguration.configurations();
+                for (final var config : configs) {
+                    throw new UnsupportedOperationException();
+                }
             } catch (MirroredTypeException mte) {
                 final var what = mte.getTypeMirror();
+                what.getKind();
             }
         }
         return false;
