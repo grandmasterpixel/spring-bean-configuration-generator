@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.example</groupId>
@@ -15,8 +14,8 @@
 
   <properties>
     <dependency-version.error-prone>2.4.0</dependency-version.error-prone>
-    <dependency-version.spring>5.2.9.RELEASE</dependency-version.spring>
     <dependency-version.junit5>5.7.0</dependency-version.junit5>
+    <dependency-version.spring>5.2.9.RELEASE</dependency-version.spring>
     <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
@@ -28,12 +27,12 @@
     <dependencies>
       <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
+        <artifactId>spring-beans</artifactId>
         <version>${dependency-version.spring}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
+        <artifactId>spring-context</artifactId>
         <version>${dependency-version.spring}</version>
       </dependency>
       <dependency>
