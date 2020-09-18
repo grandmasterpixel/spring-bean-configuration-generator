@@ -1,5 +1,9 @@
 package tbd.pack;
 
+import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
+import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
+import org.springframework.context.annotation.ConfigurationClassPostProcessor;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -27,11 +31,16 @@ import java.util.Set;
 public final class SpringBeanConfigurationGenerator extends AbstractProcessor implements Processor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        final var registry = new SimpleBeanDefinitionRegistry();
+        final var reader = new AnnotatedBeanDefinitionReader(registry);
+        final var postProcessor = new ConfigurationClassPostProcessor();
         for (final var element : roundEnv.getElementsAnnotatedWith(GenerateSpringBeanConfiguration.class)) {
             final var generateSpringBeanConfiguration = element.getAnnotation(GenerateSpringBeanConfiguration.class);
             try {
                 final var configs = generateSpringBeanConfiguration.configurations();
                 for (final var config : configs) {
+                    // when are we in this path?
+                    // possibly when we process a class annotated with GenerateSpringBeanConfiguration from a different compilation unit?
                     throw new UnsupportedOperationException();
                 }
             } catch (MirroredTypesException mte) {
@@ -60,9 +69,14 @@ public final class SpringBeanConfigurationGenerator extends AbstractProcessor im
 
                         @Override
                         public Object visitDeclared(DeclaredType t, Object o) {
-                            final var element = t.asElement();
-                            final var enclosing = t.getEnclosingType();
-                            final var kind = t.getKind();
+                            final var element = (TypeElement) t.asElement();
+                            Class<?> clazz;
+                            try {
+                                clazz = Class.forName(element.getQualifiedName().toString());
+                                reader.registerBean(clazz);
+                            } catch (ClassNotFoundException e) {
+                                clazz = null;
+                            }
                             return null;
                         }
 
@@ -109,6 +123,7 @@ public final class SpringBeanConfigurationGenerator extends AbstractProcessor im
                 }
             }
         }
+        postProcessor.postProcessBeanDefinitionRegistry(registry);
         return false;
     }
 }
