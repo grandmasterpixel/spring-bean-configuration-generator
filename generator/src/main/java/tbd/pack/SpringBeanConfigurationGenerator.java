@@ -5,7 +5,20 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ErrorType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.IntersectionType;
+import javax.lang.model.type.MirroredTypesException;
+import javax.lang.model.type.NoType;
+import javax.lang.model.type.NullType;
+import javax.lang.model.type.PrimitiveType;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.TypeVisitor;
+import javax.lang.model.type.UnionType;
+import javax.lang.model.type.WildcardType;
 import java.util.Set;
 
 @SupportedAnnotationTypes({
@@ -21,9 +34,79 @@ public final class SpringBeanConfigurationGenerator extends AbstractProcessor im
                 for (final var config : configs) {
                     throw new UnsupportedOperationException();
                 }
-            } catch (MirroredTypeException mte) {
-                final var what = mte.getTypeMirror();
-                what.getKind();
+            } catch (MirroredTypesException mte) {
+                final var typeMirrors = mte.getTypeMirrors();
+                for (final var typeMirror : typeMirrors) {
+                    final Object result = typeMirror.accept(new TypeVisitor<>() {
+                        @Override
+                        public Object visit(TypeMirror t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitPrimitive(PrimitiveType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitNull(NullType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitArray(ArrayType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitDeclared(DeclaredType t, Object o) {
+                            final var element = t.asElement();
+                            final var enclosing = t.getEnclosingType();
+                            final var kind = t.getKind();
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitError(ErrorType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitTypeVariable(TypeVariable t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitWildcard(WildcardType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitExecutable(ExecutableType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitNoType(NoType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitUnknown(TypeMirror t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitUnion(UnionType t, Object o) {
+                            return null;
+                        }
+
+                        @Override
+                        public Object visitIntersection(IntersectionType t, Object o) {
+                            return null;
+                        }
+                    }, null);
+                }
             }
         }
         return false;

@@ -1,11 +1,11 @@
 package tbd.pack;
 
-//import tbd.pack.test.TestConfiguration;
+import tbd.pack.test.TestConfiguration;
 
 @GenerateSpringBeanConfiguration(
         configurations = {
                 Muh.class,
-                //TestConfiguration.class,
+                TestConfiguration.class,
         }
 )
 public class HelloWorld {
